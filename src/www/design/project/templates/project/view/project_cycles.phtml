@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+
+?>
+<p>
+	<?php echo $this->translate('project.view.project-cycles.label.hint') ?>
+</p>
+<ul><?php foreach ($this->getProjectCycles() as $projectCycle) { ?>
+	<li title="<?php echo $this->toDate($projectCycle->getCycleClosed()) ?>"><?php echo $this->toDate($projectCycle->getCycleClosed()) ?>
+		<a href="<?php echo $this->getDeleteUrl($projectCycle) ?>"><?php echo $this->translate('logging.view.project.label.action.delete') ?></a>
+    </li>
+<?php } ?></ul>

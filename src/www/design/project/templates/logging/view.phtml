@@ -1,0 +1,117 @@
+<!--
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<?php
+
+$request = $this->getRequest();
+// load the system user
+$systemUser = $this->getSystemUser();
+
+// load the ActionForm
+$actionForm = $this->getActionForm();
+$projects = $actionForm->getProjects();
+
+?>
+<script type="text/javascript">
+<!--
+
+$(function() {
+
+	// initialize the select field with the available tasks
+	loadTasks($('#projectIdFk :selected').val(), <?php echo $actionForm->getTaskIdFk(); ?>);
+
+	// listener when the selectd project changes
+	$('#projectIdFk').change(function() {
+		loadTasks($('#projectIdFk :selected').val(), 0);
+	});
+
+	return false;
+});
+
+/**
+ * Loads the task for the passed project ID and
+ * marks the one with the passed task ID selected.
+ *
+ * @param projectId The ID of the project to load the tasks for
+ * @param taskId The ID of the selected task
+ * @return void
+ */
+function loadTasks(projectId, taskId) {
+
+	$.ajax({
+	    type: "GET",
+	    url: "?namespace=TDProject&module=Project&path=/logging/task",
+	    data: "projectId=" + projectId + "&taskId=" + taskId,
+	    success: function(data) {
+	        $('#task').html(data);
+    	}
+	});
+
+	return false;
+}
+
+//-->
+</script>
+<h2><?php echo $this->translate('logging.view.tab.label.logging') ?></h2>
+<form name="loggingForm" method="post" class="yform">
+	<input type="hidden" name="path" value="/logging" />
+	<input type="hidden" name="method" value="save" />
+	<input type="hidden" name="taskUserId" value="<?php echo $actionForm->getTaskUserId(); ?>" />
+	<fieldset class="ui-widget ui-widget-content ui-corner-all">
+		<legend>
+		    <?php echo $this->translate('logging.view.fieldset.label.logged') ?>
+		</legend>
+    	<ul><?php foreach ($actionForm->getLoggings() as $logging) { ?>
+			</script>
+        	<li title="<?php echo $logging->getProject()->getName() ?>/<?php echo $logging->getTask()->getName() ?>">
+        		[<?php echo $logging->getProject()->getProjectId() ?>/<?php echo $logging->getTaskIdFk() ?>] <?php echo $this->toDate($logging->getFrom()) ?> - <?php echo $this->toDate($logging->getUntil()) ?>, <?php echo $logging->getDescription() ?>
+        		<a href="?path=/logging&method=delete&taskUserId=<?php echo $logging->getTaskUserId() ?>">Löschen</a>
+        	</li>
+        <?php } ?></ul>
+	</fieldset>
+    <fieldset class="ui-widget ui-widget-content ui-corner-all">
+    	<legend>
+    	    <?php echo $this->translate('logging.view.fieldset.label.logging') ?>
+    	 </legend><!-- Render the messages and errors here -->
+		<div class="type-text">
+        	<label for="projectIdFk"><?php echo $this->translate('logging.view.label.task') ?>:</label>
+        	<select name="projectIdFk" id="projectIdFk">
+        		<options><?php for ($i = 0; $i < $projects->size(); $i++) { ?>
+        			<option value="<?php echo $projects->get($i)->getProjectId(); ?>" <?php if($actionForm->getProjectIdFk()->equals($projects->get($i)->getProjectId())) { ?>selected="selected" <?php } ?>>
+        			    <?php echo $projects->get($i)->getName() ?>
+        			</option><?php } ?>
+        		</options>
+        	</select>
+        </div>
+        <!-- Tasks loaded by a AJAX call depending on the selected project -->
+        <div class="type-text" id="task"></div>
+        <div class="type-text">
+        	<label for="from"><?php echo $this->translate('logging.view.label.from') ?>: *</label>
+        	<input type="text" name="from" id="from" value="<?php echo $actionForm->getFrom() ?>" />
+        </div>
+        <div class="type-text">
+        	<label for="until"><?php echo $this->translate('logging.view.label.until') ?>: *</label>
+        	<input type="text" name="until" id="until" value="<?php echo $actionForm->getUntil() ?>" />
+        </div>
+        <div class="type-text">
+        	<label for="description"><?php echo $this->translate('logging.view.label.description') ?>: *</label>
+        	<textarea name="description" id="description"><?php echo $actionForm->getDescription() ?></textarea>
+        </div>
+    </fieldset>
+    <fieldset class="ui-widget ui-widget-content ui-corner-all">
+    	<legend><?php echo $this->translate('logging.view.fieldset.label.actions') ?></legend>
+    	<div class="type-button">
+    		<input type="button" class="button" onclick="window.location='?path=/logging';" value="<?php echo $this->translate('logging.view.button.label.back') ?>" />
+    		<input type="submit" id="submit" value="<?php echo $this->translate('logging.view.button.label.save-new') ?>" />
+    		<input type="button" class="button" onclick="window.location='?path=/logging&method=delete&taskUserId=<?php echo $actionForm->getTaskUserId(); ?>';" value="<?php echo $this->translate('logging.view.button.label.delete') ?>" />
+    	</div>
+    </fieldset>
+</form>

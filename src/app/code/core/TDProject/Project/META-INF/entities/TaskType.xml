@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/entity-1.0.0.xsd"
+	name="TaskType" type="entity">
+    <description>This class represents an object oriented way to manipulate data in the database.</description>
+    <members>
+        <member name="taskTypeId" sqlname="task_type_id" type="Integer" initial="0"/>
+    	<member name="name" sqlname="name" type="String" initial="null"/>
+	</members>
+	<querys>
+		<query>
+			<description><![CDATA[Returns all task types.]]></description>
+			<method name="findAll">
+				<params/>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT task_type_id FROM task_type]]></sql>
+		</query>
+	</querys>
+	<references>
+		<reference name="task-type-has-tasks">
+			<method-name>Tasks</method-name>
+			<multiplicity>many</multiplicity>
+			<source>
+				<entity-name>Task</entity-name>
+			</source>
+			<target>
+				<member-name>taskTypeId</member-name>
+			</target>
+		</reference>
+	</references>
+	<tables>
+		<table type="InnoDB" default-charset="utf8" collate="utf8_unicode_ci" auto-increment="1" name="task_type">
+			<keys>
+				<pk name="task_type_pk" field="task_type_id"/>
+			</keys>	
+			<fields>
+				<field name="task_type_id" type="int" length="10" nullable="false" autoincrement="true"/>
+				<field name="name" type="varchar" length="45" nullable="false"/>
+			</fields>
+			<initial-data>
+				<rows>
+					<row>
+						<col name="task_type_id">1</col>
+						<col name="name">Projekt</col>
+					</row>
+					<row>
+						<col name="task_type_id">2</col>
+						<col name="name">Teilprojekt</col>
+					</row>
+					<row>
+						<col name="task_type_id">3</col>
+						<col name="name">Extensions</col>
+					</row>
+					<row>
+						<col name="task_type_id">4</col>
+						<col name="name">Extension, Intern</col>
+					</row>
+					<row>
+						<col name="task_type_id">5</col>
+						<col name="name">Extension, Extern</col>
+					</row>
+					<row>
+						<col name="task_type_id">6</col>
+						<col name="name">Tätigkeit</col>
+					</row>
+				</rows>
+			</initial-data>
+		</table>
+	</tables>
+</entity>

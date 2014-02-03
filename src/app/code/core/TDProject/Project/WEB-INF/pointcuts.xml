@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pointcuts>
+    <pointcut>
+        <includeFile>TDProject/Core/Aspect/Authorization/Acl.php</includeFile>
+        <className>TDProject_Core_Aspect_Authorization_Acl</className>
+        <methodToIntercept>public.* TDProject_Project_Controller.*->.*Action(.*)</methodToIntercept>
+        <advice>around</advice>
+        <interceptWithMethod>forceAuthorization</interceptWithMethod>
+    </pointcut>
+    <!--
+    <pointcut>
+        <includeFile>TDProject/Project/Aspect/Controller/Logging/Task/Cache.php</includeFile>
+        <className>TDProject_Project_Aspect_Controller_Logging_Task_Cache</className>
+        <methodToIntercept>public.* TDProject_Project_Controller_Logging_Task.*->__defaultAction(.*)</methodToIntercept>
+        <advice>around</advice>
+        <interceptWithMethod>load</interceptWithMethod>
+    </pointcut>
+    <pointcut>
+        <includeFile>TDProject/Project/Aspect/Controller/Logging/Task/Cache.php</includeFile>
+        <className>TDProject_Project_Aspect_Controller_Logging_Task_Cache</className>
+        <methodToIntercept>public.* TDProject_Project_Controller_Task.*->.*Action(.*)</methodToIntercept>
+        <advice>after</advice>
+        <interceptWithMethod>clean</interceptWithMethod>
+    </pointcut>
+    -->
+</pointcuts>

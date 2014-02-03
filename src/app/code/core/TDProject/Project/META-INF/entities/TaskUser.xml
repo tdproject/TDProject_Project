@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/entity-1.0.0.xsd"
+	name="TaskUser" type="entity">
+    <description>This class represents an object oriented way to manipulate data in the database.</description>
+    <members>
+        <member name="taskUserId" sqlname="task_user_id" type="Integer" initial="0"/>
+        <member name="taskIdFk" sqlname="task_id_fk" type="Integer" initial="0"/>
+        <member name="userIdFk" sqlname="user_id_fk" type="Integer" initial="0"/>
+        <member name="projectIdFk" sqlname="project_id_fk" type="Integer" initial="0"/>
+        <member name="taskName" sqlname="task_name" type="String" initial="null"/>
+        <member name="projectName" sqlname="project_name" type="String" initial="null"/>
+        <member name="username" sqlname="username" type="String" initial="null"/>
+        <member name="description" sqlname="description" type="String" initial="null"/>
+        <member name="from" sqlname="from" type="Integer" initial="0"/>
+        <member name="until" sqlname="until" type="Integer" initial="0"/>
+        <member name="toBook" sqlname="to_book" type="Integer" initial="0"/>
+        <member name="toAccount" sqlname="to_account" type="Integer" initial="0"/>
+        <member name="costs" sqlname="costs" type="Integer" initial="0"/>
+        <member name="issue" sqlname="issue" type="String" initial="null"/>
+        <member name="createdAt" sqlname="created_at" type="Integer" initial="0"/>
+        <member name="updatedAt" sqlname="updated_at" type="Integer" initial="0"/>
+	</members>
+	<querys>
+		<query>
+			<description><![CDATA[Returns all task-user relations.]]></description>
+			<method name="findAll">
+				<params/>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT task_user_id FROM task_user]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the task-user relations with the passed task ID.]]></description>
+			<method name="findAllByTaskIdFk">
+				<params>
+					<param name="taskIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT task_user_id FROM task_user WHERE task_id_fk = ?]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the task-user relations with the passed user ID.]]></description>
+			<method name="findAllByUserIdFk">
+				<params>
+					<param name="userIdFk" type="Integer"/>
+					<param name="searchText" type="String"/>
+					<param name="sortColumn" type="Integer"/>
+					<param name="sortDir" type="Object"/>
+					<param name="start" type="Integer"/>
+					<param name="length" type="Integer"/>
+				</params>
+			</method>
+			<result-type>TDProject_Core_Common_ValueObjects_Collections_ArrayList</result-type>
+			<sql><![CDATA[SELECT SQL_CALC_FOUND_ROWS `task_user_id`, `project_name`, `task_name`, `from`, `until`, CONCAT(`description`, `task_name`, `project_name`) AS `searchtext` FROM `task_user` WHERE `user_id_fk` = ? HAVING `searchtext` LIKE ? ORDER BY ? ? LIMIT ?, ?]]></sql>
+		</query>
+        <query>
+            <description><![CDATA[Returns the task-user relations with the passed project ID.]]></description>
+            <method name="findAllByProjectIdFk">
+                <params>
+                    <param name="projectIdFk" type="Integer"/>
+                    <param name="searchText" type="String"/>
+                    <param name="sortColumn" type="Integer"/>
+                    <param name="sortDir" type="Object"/>
+                    <param name="start" type="Integer"/>
+                    <param name="length" type="Integer"/>
+                </params>
+            </method>
+            <result-type>TDProject_Core_Common_ValueObjects_Collections_ArrayList</result-type>
+            <sql><![CDATA[SELECT SQL_CALC_FOUND_ROWS `task_user_id`, `project_name`, `task_name`, `from`, `until`, CONCAT(`description`, `task_name`, `project_name`) AS `searchtext` FROM `task_user` WHERE `project_id_fk` = ? HAVING `searchtext` LIKE ? ORDER BY ? ? LIMIT ?, ?]]></sql>
+        </query>
+		<query>
+			<description><![CDATA[Returns the last 10 task-user relations for the user with the passed user ID.]]></description>
+			<method name="findAllForDashboard">
+				<params>
+					<param name="userIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT `task_user_id` FROM `task_user` WHERE `user_id_fk` = ? ORDER BY `task_user_id` DESC LIMIT 10]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the task-user relations for the user with the passed user ID.]]></description>
+			<method name="findAllForCalculation">
+				<params>
+					<param name="userIdFk" type="Integer"/>
+					<param name="from" type="Integer"/>
+                    <param name="until" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT `task_user_id` FROM `task_user` WHERE `user_id_fk` = ? AND `from` > ? AND `until` < ?]]></sql>
+		</query>
+        <query>
+            <description><![CDATA[Returns the billable task-user relations for the user with the passed user ID.]]></description>
+            <method name="findAllForBillableCalculation">
+                <params>
+                    <param name="userIdFk" type="Integer"/>
+                    <param name="from" type="Integer"/>
+                    <param name="until" type="Integer"/>
+                </params>
+            </method>
+            <result-type>ArrayList</result-type>
+            <sql><![CDATA[SELECT t1.`task_user_id` FROM `task_user` t1, task t2 WHERE t1.`user_id_fk` = ? AND t2.`task_id` = t1.`task_id_fk` AND t2.`billable` = 1 AND t1.`from` > ? AND t1.`until` < ?]]></sql>
+        </query>
+	</querys>
+	<references>
+		<reference name="task-user-has-task">
+			<method-name>Task</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>Task</entity-name>
+			</source>
+			<target>
+				<member-name>taskIdFk</member-name>
+			</target>
+		</reference>
+	</references>
+	<tables>
+		<table type="InnoDB" default-charset="utf8" collate="utf8_unicode_ci" auto-increment="1" name="task_user">
+			<keys>
+				<pk name="task_user_pk" field="task_user_id"/>
+				<index name="task_user_idx_01" field="task_id_fk"/>
+				<index name="task_user_idx_02" field="user_id_fk"/>
+                <index name="task_user_idx_03" field="project_id_fk"/>
+				<fk name="task_user_fk_01" field="task_id_fk" target-table="task" target-field="task_id" on-delete="cascade"/>
+				<fk name="task_user_fk_02" field="user_id_fk" target-table="user" target-field="user_id" on-delete="cascade"/>
+                <fk name="task_user_fk_03" field="project_id_fk" target-table="project" target-field="project_id" on-delete="cascade"/>
+			</keys>	
+			<fields>
+				<field name="task_user_id" type="int" length="10" nullable="false" autoincrement="true"/>
+				<field name="task_id_fk" type="int" length="10" nullable="false"/>
+				<field name="user_id_fk" type="int" length="10" nullable="false"/>
+                <field name="project_id_fk" type="int" length="10" nullable="false"/>
+				<field name="task_name" type="varchar" length="45" nullable="false"/>
+				<field name="project_name" type="varchar" length="45" nullable="false"/>
+                <field name="username" type="varchar" length="45" nullable="false"/>
+				<field name="description" type="text" length="16" nullable="false"/>
+				<field name="from" type="int" length="10" nullable="false" default="0"/>
+				<field name="until" type="int" length="10" nullable="false" default="0"/>
+				<field name="to_book" type="int" length="10" nullable="false" default="0"/>
+				<field name="to_account" type="int" length="10" nullable="false" default="0"/>
+				<field name="costs" type="int" length="10" nullable="false" default="0"/>
+                <field name="issue" type="varchar" length="255" nullable="true"/>
+                <field name="created_at" type="int" length="10" nullable="false"/>
+                <field name="updated_at" type="int" length="10" nullable="false"/>
+			</fields>
+		</table>
+	</tables>
+</entity>

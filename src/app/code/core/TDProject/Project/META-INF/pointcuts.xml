@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pointcuts>
+    <pointcut>
+        <includeFile>TDProject/Project/Aspect/Model/Entities/Task.php</includeFile>
+        <className>TDProject_Project_Aspect_Model_Entities_Task</className>
+        <methodToIntercept>.* TDProject_Project_Model_Entities_Task->create(.*)</methodToIntercept>
+        <advice>after</advice>
+        <interceptWithMethod>createSolrDocument</interceptWithMethod>
+    </pointcut>
+</pointcuts>

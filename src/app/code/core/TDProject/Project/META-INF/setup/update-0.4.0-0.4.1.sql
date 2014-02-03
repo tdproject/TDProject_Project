@@ -1,0 +1,1 @@
+ALTER TABLE `task_user` CHANGE `description` `description` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;

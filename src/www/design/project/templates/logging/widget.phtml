@@ -1,0 +1,130 @@
+<!--
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<?php
+
+$request = $this->getRequest();
+// load the system user
+$systemUser = $this->getSystemUser();
+
+// load the ActionForm
+$actionForm = $this->getActionForm();
+
+// load the errors
+if(($errors = $request->getAttribute(TechDivision_Controller_Action_Errors::ACTION_ERRORS)) != null) {
+    $foundErrors = $errors->size();
+} else {
+    $foundErrors = 0;
+}
+
+// load the messages
+if(($messages = $request->getAttribute(TechDivision_Controller_Action_Messages::ACTION_MESSAGES)) != null) {
+    $foundMessages = $messages->size();
+} else {
+    $foundMessages = 0;
+}
+
+?>
+
+<script type="text/javascript">
+<!--
+$(function() {
+
+	var loggingForm = $('#loggingForm');
+
+	$("#submit", loggingForm).click(function() {
+
+		$.ajax({
+    	    type: "POST",
+    	    url: "?namespace=TDProject&module=Project&path=/logging/widget&method=save",
+    	    data: 'toLog=' + $("#toLog", loggingForm).val(),
+    	    success: function(response) {
+				$('#logging').html(response);
+    	    }
+	    });
+
+		return false;
+	});
+});
+
+/**
+ * Deletes the logging entry with the passed ID.
+ *
+ * @param int taskUserId The ID of the logging entry to delete
+ */
+function deleteLogging(taskUserId) {
+
+	$.ajax({
+	    type: "POST",
+	    url: "?namespace=TDProject&module=Project&path=/logging/widget&method=delete",
+	    data: 'taskUserId=' + taskUserId,
+	    success: function(response) {
+			$('#logging').html(response);
+	    }
+    });
+
+    return false;
+}
+
+//-->
+</script>
+<form class="yform" id="loggingForm" name="loggingForm" action="">
+
+	<fieldset class="ui-widget ui-widget-content ui-corner-all">
+		<legend><?php echo $this->translate('logging.widget.legend.summary') ?></legend>
+    	<ul>
+    		<li>
+    		    <?php echo $this->translate('logging.widget.label.summary.day') ?>: <?php echo $this->getHoursThisDay() ?> <?php echo $this->translate('logging.widget.label.summary.hours') ?>
+    		</li>
+    		<li>
+    		    <?php echo $this->translate('logging.widget.label.summary.week') ?>: <?php echo $this->getHoursThisWeek() ?> <?php echo $this->translate('logging.widget.label.summary.hours') ?>
+    		</li>
+    		<li>
+    		    <?php echo $this->translate('logging.widget.label.summary.month') ?>: <?php echo $this->getHoursThisMonth() ?> <?php echo $this->translate('logging.widget.label.summary.hours') ?>
+    		</li>
+    		<li>
+    		    <?php echo $this->translate('logging.widget.label.summary.billable-month') ?>: <?php echo $this->getBillableHoursThisMonth() ?> <?php echo $this->translate('logging.widget.label.summary.hours') ?>
+    		</li>
+    		<li>
+    		    <?php echo $this->translate('logging.widget.label.summary.performance') ?>: <?php echo $this->getPerformance() ?> <?php echo $this->translate('logging.widget.label.summary.percent') ?>
+    		</li>
+    	</ul>
+	</fieldset>
+
+<?php if ($this->getLoggings()->size() > 0) { ?>
+	<fieldset class="ui-widget ui-widget-content ui-corner-all">
+		<legend><?php echo $this->translate('logging.widget.legend.my-loggings') ?></legend>
+    	<ul><?php foreach ($this->getLoggings() as $logging) { ?>
+			</script>
+        	<li title="<?php echo $logging->getProject()->getName() ?>/<?php echo $logging->getTask()->getName() ?>">
+        		[<?php echo $logging->getProject()->getProjectId() ?>/<?php echo $logging->getTaskIdFk() ?>] <?php echo $this->toDate($logging->getFrom()) ?> - <?php echo $this->toDate($logging->getUntil()) ?>, <?php echo $logging->getDescription() ?>
+        		<a onclick="javascript:deleteLogging(<?php echo $logging->getTaskUserId() ?>);" id="delete-<?php echo $logging->getTaskUserId() ?>">Löschen</a>
+        	</li>
+        <?php } ?></ul>
+	</fieldset>
+<?php } ?>
+
+	<fieldset class="ui-widget ui-widget-content ui-corner-all">
+    	<legend><?php echo $this->translate('logging.widget.legend.logging'); ?></legend>
+    	<div class="type-text">
+        	<label for="toLog"><?php echo $this->translate('logging.widget.label.task-details'); ?>: *</label>
+        	<input type="text" name="toLog" id="toLog" value="<?php echo $actionForm->getToLog() ?>"/>
+        </div>
+	</fieldset>
+
+    <fieldset class="ui-widget ui-widget-content ui-corner-all">
+    	<legend><?php echo $this->translate('logging.widget.legend.actions'); ?></legend>
+    	<div class="type-button">
+    		<input type="submit" id="submit" value="<?php echo $this->translate('logging.widget.button.action.save') ?>" />
+    	</div>
+    </fieldset>
+
+</form>

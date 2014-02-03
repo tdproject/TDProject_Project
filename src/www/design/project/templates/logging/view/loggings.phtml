@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+
+?>
+<p>
+	<?php echo $this->translate('logging.view.loggings.label.hint') ?>
+</p>
+<ul><?php foreach ($this->getLoggings() as $logging) { ?>
+	<li title="<?php echo $logging->getProject()->getName() ?>/<?php echo $logging->getTask()->getName() ?>">
+    	[<?php echo $logging->getProject()->getProjectId() ?>/<?php echo $logging->getTaskIdFk() ?>] <?php echo $this->toDate($logging->getFrom()) ?> - <?php echo $this->toDate($logging->getUntil()) ?>, <?php echo $logging->getDescription() ?>
+		<a href="?path=/logging&method=delete&taskUserId=<?php echo $logging->getTaskUserId() ?>"><?php echo $this->translate('logging.view.loggings.label.action.delete') ?></a>
+		<a href="?path=/logging&method=edit&taskUserId=<?php echo $logging->getTaskUserId() ?>"><?php echo $this->translate('logging.view.loggings.label.action.edit') ?></a>
+    </li>
+<?php } ?></ul>

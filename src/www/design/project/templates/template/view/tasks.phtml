@@ -1,0 +1,108 @@
+<?php
+ 
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+
+?>
+
+<fieldset class="ui-widget ui-widget-content ui-corner-all">
+	<legend>Tasks wählen</legend>				
+	<div id="tasks" class="tasks"></div>
+</fieldset>
+<?php $this->_getChildHtml('task') ?>
+
+<script type="text/javascript">
+<!--
+$(function () {
+	$("#tasks")
+    	// initialize the TreeView and the plugins
+    	.jstree({
+    		"json_data" : {
+    			"ajax" : {
+    				"url" : "?path=/task/json/template",
+    				"data" : function (n) { 
+    					return { id : n.attr ? n.attr("id") : <?php echo $this->getTemplateId() ?> }; 
+    				},
+    				"success" : function (data) { 
+        				return data.d; 
+        			},
+    				"failure" : function (data) { 
+        				return data.d; 
+        			}
+    			}
+    		},	    		
+    		"plugins" : [ "themes", "json_data", "crrm", "contextmenu", "ui", "themeroller" ]
+    	})
+		// rename and reload the task
+		.bind('rename.jstree', function(e, data) {
+    		$.post(
+        			"?path=/task/json&method=rename", 
+        			{ 
+        				"taskId" : data.rslt.obj.attr("id").replace("task_", ""),
+        				"name" : data.rslt.new_name
+        			},
+        			function (r) {
+        				if (r.status) {
+        					loadTask(r.taskId);
+        				} else {
+        					$.jstree.rollback(data.rlbk);
+        				}
+        			},
+        			"json"
+        		);
+        })
+        // create a new task
+    	.bind("create.jstree", function (e, data) {
+    		$.post(
+    			"?path=/task/json&method=save", 
+    			{ 
+    				"taskTypeIdFk" : 1,
+    				"taskIdFk" : data.rslt.parent.attr("id").replace("task_", ""),
+    				"name" : data.rslt.name,
+    				"description" : "To fill",
+        			"billable" : 0
+    			}, 
+    			function (r) {
+    				if (r.status) {
+    					$(data.rslt.obj).attr("id", "task_" + r.taskId);
+    					loadTask(r.taskId);
+    				} else {
+    					$.jstree.rollback(data.rlbk);
+    				}
+    			},
+    			"json"
+    		);
+    	})
+    	// delete the selected task
+    	.bind("remove.jstree", function (e, data) {
+    		$.post(
+    			"?path=/task/json&method=delete", 
+    			{ 
+    				"taskId" : data.rslt.obj.attr("id").replace("task_", "")
+    			},
+    			function (r) {
+    				if (r.status) {
+    					console.log(r.taskId);
+    				} else {
+    					$.jstree.rollback(data.rlbk);
+    				}
+    			},
+    			"json"
+    		);
+    	})
+		// load the task if a node is selected
+		.bind('select_node.jstree', function(e, data) {
+			loadTask(
+				data.rslt.obj.attr("id").replace("task_", "")
+			);
+        });
+});
+//-->
+</script>

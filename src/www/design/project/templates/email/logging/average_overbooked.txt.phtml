@@ -1,0 +1,20 @@
+Betreff: <?php echo $this->getSubject() ?>
+
+Ein Task wurde über den durchschnittlichen Schätzwert hinaus überbucht!
+
+Folgend Detaildaten liegen vor:
+
+- Benutzer: <?php echo $this->getUser()->getUsername() ?> <<?php echo $this->getUser()->getEmail() ?>>
+- Projekt: <?php echo $this->getProject()->getName() ?>
+- Task: <?php echo $this->getTask()->getName() ?>
+- Tätigkeitsbeschreibung: <?php echo $this->getTaskUser()->getDescription() ?>
+- Von: <?php echo $this->getTaskUserFrom() ?> - <?php echo $this->getTaskUserUntil() ?>
+- Aktuell gebucht: <?php echo $this->asHours($this->getTotalBefore()) ?>
+- Danach gebucht (theoretisch): <?php echo $this->asHours($this->getTotal()) ?>
+- Durchschnittlich buchbar: <?php echo $this->asHours($this->getAverage()) ?>
+
+Derzeit besteht zwar kein Handlungsbedarf, es ist jedoch angebracht, den Task
+weiterhin zu beobachten, um eine Überbuchung, wenn möglich, zu vermeiden!
+
+TDProject
+System Services

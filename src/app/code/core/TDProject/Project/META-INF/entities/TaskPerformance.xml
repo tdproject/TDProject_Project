@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/entity-1.0.0.xsd"
+	name="TaskPerformance" type="entity">
+    <description>This class represents an object oriented way to manipulate data in the database.</description>
+    <members>
+        <member name="taskPerformanceId" sqlname="task_performance_id" type="Integer" initial="0"/>
+        <member name="taskIdFk" sqlname="task_id_fk" type="Integer" initial="0"/>
+    	<member name="total" sqlname="total" type="Integer" initial="null"/>
+        <member name="minimum" sqlname="minimum" type="Integer" initial="null"/>
+        <member name="normal" sqlname="normal" type="Integer" initial="null"/>
+        <member name="average" sqlname="average" type="Integer" initial="null"/>
+        <member name="maximum" sqlname="maximum" type="Integer" initial="null"/>
+        <member name="allowOverbooking" sqlname="allow_overbooking" type="Boolean" initial="null"/>
+        <member name="finished" sqlname="finished" type="Boolean" initial="null"/>
+	</members>
+	<querys>
+		<query>
+			<description><![CDATA[Returns all task performances.]]></description>
+			<method name="findAll">
+				<params/>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT task_performance_id FROM task_performance]]></sql>
+		</query>
+        <query>
+            <description><![CDATA[Returns the performances with the passed task ID.]]></description>
+            <method name="findAllByTaskIdFk">
+                <params>
+                    <param name="taskIdFk" type="Integer"/>
+                </params>
+            </method>
+            <result-type>ArrayList</result-type>
+            <sql><![CDATA[SELECT task_performance_id FROM task_performance WHERE task_id_fk = ?]]></sql>
+        </query>
+	</querys>
+	<references>
+		<reference name="task-performance-has-task">
+			<method-name>Task</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>Task</entity-name>
+			</source>
+			<target>
+				<member-name>taskIdFk</member-name>
+			</target>
+		</reference>
+	</references>
+	<tables>
+		<table type="InnoDB" default-charset="utf8" collate="utf8_unicode_ci" auto-increment="1" name="task_performance">
+			<keys>
+				<pk name="task_performance_pk" field="task_performance_id"/>
+                <index name="task_performance_idx_01" field="task_id_fk"/>
+                <fk name="task_performance_fk_01" field="task_id_fk" target-table="task" target-field="task_id" on-delete="cascade"/>
+			</keys>	
+			<fields>
+				<field name="task_performance_id" type="int" length="10" nullable="false" autoincrement="true"/>
+                <field name="task_id_fk" type="int" length="10" nullable="false"/>
+                <field name="total" type="int" length="10" nullable="false"/>
+				<field name="minimum" type="int" length="10" nullable="false"/>
+                <field name="normal" type="int" length="10" nullable="false"/>
+                <field name="average" type="int" length="10" nullable="false"/>
+                <field name="maximum" type="int" length="10" nullable="false"/>
+                <field name="allow_overbooking" type="tinyint" length="1" nullable="false"/>
+                <field name="finished" type="tinyint" length="1" nullable="false"/>
+			</fields>
+		</table>
+	</tables>
+</entity>

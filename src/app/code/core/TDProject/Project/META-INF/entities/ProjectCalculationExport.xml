@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/entity-1.0.0.xsd"
+	name="ProjectCalculationExport" type="entity">
+    <description>This class represents an object oriented way to manipulate data in the database.</description>
+    <members>
+        <member name="projectCalculationExportId" sqlname="project_calculation_export_id" type="Integer" initial="0"/>
+        <member name="projectIdFk" sqlname="project_id_fk" type="Integer" initial="0"/>
+        <member name="userIdFk" sqlname="user_id_fk" type="Integer" initial="0"/>
+        <member name="username" sqlname="username" type="String" initial="0"/>
+        <member name="filename" sqlname="filename" type="String" initial="0"/>
+        <member name="createdAt" sqlname="created_at" type="Integer" initial="0"/>
+	</members>
+	<querys>
+		<query>
+			<description><![CDATA[Returns all project calculation exports.]]></description>
+			<method name="findAll">
+				<params/>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT project_calculation_export_id FROM project_calculation_export]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the project calculation exports with the passed project ID.]]></description>
+			<method name="findAllByProjectIdFk">
+				<params>
+					<param name="projectIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT project_calculation_export_id FROM project_calculation_export WHERE project_id_fk = ?]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the project calculation exports with the passed user ID.]]></description>
+			<method name="findAllByUserIdFk">
+				<params>
+					<param name="userIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT project_calculation_export_id FROM project_calculation_export WHERE user_id_fk = ?]]></sql>
+		</query>
+	</querys>
+	<references>
+		<reference name="project-calculation-export-has-project">
+			<method-name>Project</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>Project</entity-name>
+			</source>
+			<target>
+				<member-name>projectIdFk</member-name>
+			</target>
+		</reference>
+	</references>
+	<tables>
+		<table type="InnoDB" default-charset="utf8" collate="utf8_unicode_ci" auto-increment="1" name="project_calculation_export">
+			<keys>
+				<pk name="project_calculation_export_pk" field="project_calculation_export_id"/>
+				<index name="project_calculation_export_idx_01" field="project_id_fk"/>
+				<index name="project_calculation_export_idx_02" field="user_id_fk"/>
+				<fk name="project_calculation_export_fk_01" field="project_id_fk" target-table="project" target-field="project_id" on-delete="cascade"/>
+				<fk name="project_calculation_export_fk_02" field="user_id_fk" target-table="user" target-field="user_id" on-delete="cascade"/>
+			</keys>	
+			<fields>
+				<field name="project_calculation_export_id" type="int" length="10" nullable="false" autoincrement="true"/>
+				<field name="project_id_fk" type="int" length="10" nullable="false"/>
+				<field name="user_id_fk" type="int" length="10" nullable="false"/>
+                <field name="username" type="varchar" length="45" nullable="false"/>
+                <field name="filename" type="varchar" length="10" nullable="false"/>
+                <field name="created_at" type="int" length="10" nullable="false"/>
+			</fields>
+		</table>
+	</tables>
+</entity>

@@ -1,0 +1,2 @@
+ALTER TABLE `task` ADD CONSTRAINT task_fk_01 FOREIGN KEY (`task_id_fk`) REFERENCES `task` (`task_id`) ON DELETE CASCADE;
+ALTER TABLE `task` ADD CONSTRAINT task_fk_02 FOREIGN KEY (`task_type_id_fk`) REFERENCES `task_type` (`task_type_id`) ON DELETE CASCADE;        

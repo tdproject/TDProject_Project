@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+
+$dto = $this->getContext()->getAttribute('searchViewData');
+
+?>
+
+<div id="facets"><?php foreach ($dto->getFacets() as $facetName => $solrObject) { ?>
+    <ul><?php echo $facetName ?><?php foreach ($solrObject as $key => $value) { ?>
+        <li><a href="<?php echo $this->getSearchUrl($facetName, $key) ?>"><?php echo "$key ($value)" ?></a></li><?php } ?>
+    </ul><?php } ?>    
+</div>
+
+<div id="dynamic">
+    <table cellpadding="0" cellspacing="0" border="0" class="display" id="searchResult">
+        <tbody>
+            <?php foreach ($dto->getTasks() as $task) { ?><tr class="odd">
+                <td><?php echo $task['name'] ?><td>
+            </tr><?php } ?>
+        </tbody>
+    </table>
+</div>
+<div class="spacer"></div>

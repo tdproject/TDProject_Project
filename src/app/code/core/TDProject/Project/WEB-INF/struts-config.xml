@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<struts-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/struts-config-2.1.1.xsd">
+    <message-resources key="Project" name="Application" path="TDProject/Project/WEB-INF"/>
+    <form-beans>
+        <form-bean include="TDProject/Project/Block/Project/View.php" name="projectForm" type="TDProject_Project_Block_Project_View"/>
+        <form-bean include="TDProject/Project/Block/Template/View.php" name="templateForm" type="TDProject_Project_Block_Template_View"/>
+        <form-bean include="TDProject/Project/Block/Task/View.php" name="taskForm" type="TDProject_Project_Block_Task_View"/>
+        <form-bean include="TDProject/Project/Block/Logging/View.php" name="loggingForm" type="TDProject_Project_Block_Logging_View"/>
+        <form-bean include="TDProject/Project/Block/Estimation/View.php" name="estimationForm" type="TDProject_Project_Block_Estimation_View"/>
+        <form-bean include="TDProject/Project/Block/Logging/Form/Widget.php" name="loggingFormWidget" type="TDProject_Project_Block_Logging_Form_Widget"/>
+        <form-bean include="TDProject/Project/Block/Task/Search.php" name="searchForm" type="TDProject_Project_Block_Task_Search"/>
+    </form-beans>    
+    <global-forwards/>
+    <action-mappings>
+        <action path="/project/ajax" name="" type="TDProject_Project_Controller_Project_Ajax" scope="request" input="" parameter="method" validate="false" include="TDProject/Project/Controller/Project/Ajax.php" unknown="false"/>
+        <action path="/project/calculationExport" name="" type="TDProject_Project_Controller_Project_CalculationExport" scope="request" input="" parameter="method" validate="false" include="TDProject/Project/Controller/Project/CalculationExport.php" unknown="false">        
+            <forward name="CalculationExport" path="TDProject_Project_Block_Project_View_CalculationExport" redirect="false"/>
+        </action>
+        <action path="/project" name="projectForm" type="TDProject_Project_Controller_Project" scope="request" input="" parameter="method" validate="false" include="TDProject/Project/Controller/Project.php" unknown="false">
+            <forward name="ProjectOverview" path="TDProject_Project_Block_Project_Overview" redirect="false"/>
+            <forward name="ProjectView" path="TDProject_Project_Block_Project_View" redirect="false"/>
+        </action>
+        <action path="/template" name="templateForm" type="TDProject_Project_Controller_Template" scope="request" input="" parameter="method" validate="false" include="TDProject/Project/Controller/Template.php" unknown="false">
+            <forward name="TemplateOverview" path="TDProject_Project_Block_Template_Overview" redirect="false"/>
+            <forward name="TemplateView" path="TDProject_Project_Block_Template_View" redirect="false"/>
+        </action>
+        <action path="/task" name="taskForm" type="TDProject_Project_Controller_Task" scope="request" input="" parameter="method" validate="false" include="TDProject/Project/Controller/Task.php" unknown="false">
+            <forward name="TaskOverview" path="TDProject_Project_Block_Task_Overview" redirect="false"/>
+            <forward name="TaskView" path="TDProject_Project_Block_Task_View" redirect="false"/>
+        </action>
+        <action path="/task/json" name="taskForm" type="TDProject_Project_Controller_Task_Json" scope="request" input="" parameter="method" validate="false" include="TDProject/Project/Controller/Task/Json.php" unknown="false">
+            <forward name="Json" path="TDProject_Project_Block_Task_Json" redirect="false"/>
+        </action>
+        <action path="/task/search" name="searchForm" type="TDProject_Project_Controller_Task_Search" scope="request" input="" parameter="method" validate="false" include="TDProject/Project/Controller/Task/Search.php" unknown="false">
+            <forward name="SearchOverview" path="TDProject_Project_Block_Task_Search" redirect="false"/>
+        </action>
+        <action path="/task/json/template" name="taskForm" type="TDProject_Project_Controller_Task_Json_Template" scope="request" input="" parameter="method" validate="false" include="TDProject/Project/Controller/Task/Json/Template.php" unknown="false">
+            <forward name="Json" path="TDProject_Project_Block_Task_Json" redirect="false"/>
+        </action>
+        <action path="/task/json/project" name="taskForm" type="TDProject_Project_Controller_Task_Json_Project" scope="request" input="" parameter="method" validate="false" include="TDProject/Project/Controller/Task/Json/Project.php" unknown="false">
+            <forward name="Json" path="TDProject_Project_Block_Task_Json" redirect="false"/>
+        </action>
+        <action path="/logging/widget" name="loggingFormWidget" type="TDProject_Project_Controller_Logging_Widget" scope="request" input="" parameter="method" validate="false" include="TDProject/Project/Controller/Logging/Widget.php" unknown="false">
+            <forward name="LoggingView" path="TDProject_Project_Block_Logging_Widget" redirect="false"/>
+        </action>
+        <action path="/logging/task" name="" type="TDProject_Project_Controller_Logging_Task" scope="request" input="" parameter="method" validate="false" include="TDProject/Project/Controller/Logging/Task.php" unknown="false">
+            <forward name="Task" path="TDProject_Project_Block_Logging_View_Task" redirect="false"/>
+            <forward name="TaskDescription" path="TDProject_Project_Block_Logging_View_Task_Description" redirect="false"/>
+        </action>
+        <action path="/logging" name="loggingForm" type="TDProject_Project_Controller_Logging" scope="request" input="" parameter="method" validate="false" include="TDProject/Project/Controller/Logging.php" unknown="false">
+            <forward name="LoggingView" path="TDProject_Project_Block_Logging_View" redirect="false"/>
+            <forward name="LoggingOverview" path="TDProject_Project_Block_Logging_Overview" redirect="false"/>
+        </action>
+        <action path="/logging/json" name="loggingForm" type="TDProject_Project_Controller_Logging_Json" scope="request" input="" parameter="method" validate="false" include="TDProject/Project/Controller/Logging/Json.php" unknown="false">
+            <forward name="Json" path="TDProject_Project_Block_Logging_Json" redirect="false"/>
+        </action>
+        <action path="/estimation" name="estimationForm" type="TDProject_Project_Controller_Estimation" scope="request" input="" parameter="method" validate="false" include="TDProject/Project/Controller/Estimation.php" unknown="false">
+            <forward name="EstimationOverview" path="TDProject_Project_Block_Estimation_Overview" redirect="false"/>
+            <forward name="EstimationView" path="TDProject_Project_Block_Estimation_View" redirect="false"/>
+        </action>
+    </action-mappings>
+</struts-config>

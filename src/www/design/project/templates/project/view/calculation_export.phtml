@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+
+$dto = $this->getRequest()->getAttribute(
+    TDProject_Project_Controller_Util_WebRequestKeys::VIEW_DATA
+);
+
+header("Pragma: public");
+header("Expires: 0");
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+header("Cache-Control: public");
+header("Content-Description: File Transfer");
+header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header("Content-Disposition: inline; filename=" . basename($dto->getFilename()) .";");
+header("Content-Transfer-Encoding: binary");
+
+echo file_get_contents($dto->getFilename());

@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<resources>
+    <resource name="/project">
+        <methods>
+            <method name="__default">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="create">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="delete">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="edit">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="save">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="reorg">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="deleteProjectCycle">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+        </methods>
+    </resource>
+    <resource name="/project/ajax">
+        <methods>
+            <method name="relateProjectUser">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="unrelateProjectUser">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+        </methods>
+    </resource>
+    <resource name="/project/calculationExport">
+        <methods>
+            <method name="__default">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+        </methods>
+    </resource>
+    <resource name="/template">
+        <methods>
+            <method name="__default">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="create">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="delete">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="edit">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="save">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+        </methods>
+    </resource>
+    <resource name="/task">
+        <methods>
+            <method name="__default">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="create">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="delete">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="edit">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="save">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+        </methods>
+    </resource>
+    <resource name="/task/json">
+        <methods>
+            <method name="delete">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="rename">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="save">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+        </methods>
+    </resource>
+    <resource name="/task/search">
+        <methods>
+            <method name="__default">
+                <roles>
+                    <role name="User"/>
+                </roles>
+            </method>
+        </methods>
+    </resource>
+    <resource name="/task/json/project">
+        <methods>
+            <method name="__default">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+        </methods>
+    </resource>
+    <resource name="/task/json/template">
+        <methods>
+            <method name="__default">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+        </methods>
+    </resource>
+    <resource name="/logging">
+        <methods>
+            <method name="__default">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+            <method name="create">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+            <method name="delete">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+            <method name="edit">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+            <method name="save">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+        </methods>
+    </resource>	
+    <resource name="/logging/widget">
+        <methods>
+            <method name="create">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+            <method name="save">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+            <method name="delete">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+        </methods>
+    </resource>
+    <resource name="/logging/json">
+        <methods>
+            <method name="__default">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+            <method name="project">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+            <method name="calculateDate">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+            <method name="calculateMinutes">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+        </methods>
+    </resource>
+    <resource name="/logging/task">
+        <methods>
+            <method name="__default">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+            <method name="loadDescription">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+        </methods>
+    </resource>	
+    <resource name="/estimation">
+        <methods>
+            <method name="__default">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+            <method name="create">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+            <method name="save">
+                <roles>
+                    <role name="Developer"/>
+                </roles>
+            </method>
+            <method name="delete">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+            <method name="edit">
+                <roles>
+                    <role name="Projectmanager"/>
+                </roles>
+            </method>
+        </methods>
+    </resource>
+</resources>

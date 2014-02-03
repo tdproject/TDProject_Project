@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/entity-1.0.0.xsd"
+	name="ProjectCycle" type="entity">
+    <description>This class represents an object oriented way to manipulate data in the database.</description>
+    <members>
+        <member name="projectCycleId" sqlname="project_cycle_id" type="Integer" initial="0"/>
+        <member name="projectIdFk" sqlname="project_id_fk" type="Integer" initial="0"/>
+        <member name="userIdFk" sqlname="user_id_fk" type="Integer" initial="0"/>
+        <member name="cycleClosed" sqlname="cycle_closed" type="Integer" initial="0"/>
+        <member name="createdAt" sqlname="created_at" type="Integer" initial="0"/>
+	</members>
+	<querys>
+		<query>
+			<description><![CDATA[Returns all project cycles.]]></description>
+			<method name="findAll">
+				<params/>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT project_cycle_id FROM project_cycle]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the project cycles with the passed project ID.]]></description>
+			<method name="findAllByProjectIdFk">
+				<params>
+					<param name="projectIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT project_cycle_id FROM project_cycle WHERE project_id_fk = ?]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the project cycles with the passed user ID.]]></description>
+			<method name="findAllByUserIdFk">
+				<params>
+					<param name="userIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT project_cycle_id FROM project_cycle WHERE user_id_fk = ?]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the project cycles with the passed project and user ID.]]></description>
+			<method name="findAllByProjectIdFkAndUserIdFk">
+				<params>
+					<param name="projectIdFk" type="Integer"/>
+					<param name="userIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT project_cycle_id FROM project_cycle WHERE project_id_fk = ? AND user_id_fk = ?]]></sql>
+		</query>
+        <query>
+            <description><![CDATA[Returns the project cycles with the passed project ID and cylce closed date is earlier than the passed timestamp.]]></description>
+            <method name="findAllByProjectIdFkAndCycleClosed">
+                <params>
+                    <param name="projectIdFk" type="Integer"/>
+                    <param name="cycleClosed" type="Integer"/>
+                </params>
+            </method>
+            <result-type>ArrayList</result-type>
+            <sql><![CDATA[SELECT project_cycle_id FROM project_cycle WHERE project_id_fk = ? AND cycle_closed > ? ORDER BY cycle_closed DESC]]></sql>
+        </query>
+	</querys>
+	<references>
+		<reference name="project-cycle-has-project">
+			<method-name>Project</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>Project</entity-name>
+			</source>
+			<target>
+				<member-name>projectIdFk</member-name>
+			</target>
+		</reference>
+	</references>
+	<tables>
+		<table type="InnoDB" default-charset="utf8" collate="utf8_unicode_ci" auto-increment="1" name="project_cycle">
+			<keys>
+				<pk name="project_cycle_pk" field="project_cycle_id"/>
+				<index name="project_cycle_idx_01" field="project_id_fk"/>
+				<index name="project_cycle_idx_02" field="user_id_fk"/>
+				<fk name="project_cycle_fk_01" field="project_id_fk" target-table="project" target-field="project_id" on-delete="cascade"/>
+				<fk name="project_cycle_fk_02" field="user_id_fk" target-table="user" target-field="user_id" on-delete="cascade"/>
+			</keys>	
+			<fields>
+				<field name="project_cycle_id" type="int" length="10" nullable="false" autoincrement="true"/>
+				<field name="project_id_fk" type="int" length="10" nullable="false"/>
+				<field name="user_id_fk" type="int" length="10" nullable="false"/>
+                <field name="cycle_closed" type="int" length="10" nullable="false"/>
+                <field name="created_at" type="int" length="10" nullable="false"/>
+			</fields>
+		</table>
+	</tables>
+</entity>

@@ -1,0 +1,77 @@
+<!-- 
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<?php
+
+$request = $this->getRequest();
+$dtos = $request->getAttribute("dtos");
+
+?>
+
+<script language="JavaScript" src="www/design/core/templates/global/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+	$('#grid').dataTable( {
+		"bJQueryUI": true,
+		"sPaginationType": "full_numbers"
+	} );
+} );
+</script>
+
+<h2>Zeitenübersicht</h2>
+<div class="yform">
+	<fieldset class="ui-widget ui-widget-content ui-corner-all">
+    	<legend>Übersicht</legend>
+    	<div id="dynamic">
+            <table cellpadding="0" cellspacing="0" border="0" class="display" id="grid">
+            	<thead>
+                	<tr>
+                		<th width="5%">Id</th>
+                		<th width="20%">Projekt</th>
+                		<th width="20%">Task</th>
+                		<th width="20%">von</th>
+                		<th width="20%">bis</th>
+                		<th width="15%">Aktion</th>
+                	</tr>
+            	</thead>
+            	<tbody><?php for ($i = 0; $i < $dtos->size(); $i++) { ?>
+                	<tr height="20">
+                		<td><?php echo $dtos->get($i)->getTaskUserId() ?></td>
+                		<td><?php echo $dtos->get($i)->getProject()->getName() ?></td>
+                		<td><?php echo $dtos->get($i)->getTask()->getName() ?></td>
+                		<td><?php echo $this->toDate($dtos->get($i)->getFrom()) ?></td>
+                		<td><?php echo $this->toDate($dtos->get($i)->getUntil()) ?></td>
+                		<td>
+                			<a href="<?php echo "?path=/logging&method=edit&taskUserId=" . $dtos->get($i)->getTaskUserId()?>">Bearbeiten</a>
+                		</td>
+                	</tr><?php } ?>
+            	</tbody>
+            	<tfoot>
+                	<tr>
+                		<th>Id</th>
+                		<th>Projekt</th>
+                		<th>Task</th>
+                		<th>von</th>
+                		<th>bis</th>
+                		<th>Aktion</th>
+                	</tr>
+            	</tfoot>
+            </table>
+        </div>
+	</fieldset>
+	<fieldset class="ui-widget ui-widget-content ui-corner-all">
+        <div class="type-button">
+            <input type="submit" id="cancel"
+            	onclick="window.location='?path=/logging&method=create';"
+            	value="Neuer Eintrag"/>
+        </div>
+	</fieldset>
+</div>

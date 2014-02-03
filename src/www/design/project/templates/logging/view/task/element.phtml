@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+
+?>
+
+<?php if ($this->hasChilds() === false) { ?>
+	<option value="<?php echo $this->getTask()->getTaskId() ?>"
+		<?php if ($this->isSelected()) { ?>selected="selected"<?php } ?>
+		<?php if ($this->isSelectable() === false) { ?>disabled="disabled"<?php } ?>>
+		<?php echo $this->renderName() ?>
+	</option>
+<?php } else {
+
+	// check for the first level to start a option group
+	if ($this->isFirstLevel()) {
+		echo '<optgroup label="' . $this->getTask()->getName() .  '">';
+	}
+
+	// render the childs
+	foreach ($this->getTask()->getTasks() as $task) {
+		$this->_getChildHtml($task->getTaskId()->intValue());
+	}
+
+	// check for the first level to close the option group
+	if ($this->isFirstLevel()) {
+		echo '</optgroup>';
+	}
+
+} ?>

@@ -1,0 +1,22 @@
+Betreff: <?php echo $this->getSubject() ?>
+
+Es wurde versucht, einen Task, über den maximalen Schätzwert hinaus, zu überbuchen!
+
+Folgend Detaildaten liegen vor:
+
+- Benutzer: <?php echo $this->getUser()->getUsername() ?> <<?php echo $this->getUser()->getEmail() ?>>
+- Projekt: <?php echo $this->getProject()->getName() ?>
+- Task: <?php echo $this->getTask()->getName() ?>
+- Tätigkeitsbeschreibung: <?php echo $this->getTaskUser()->getDescription() ?>
+- Von: <?php echo $this->getTaskUserFrom() ?> - <?php echo $this->getTaskUserUntil() ?>
+- Aktuell gebucht: <?php echo $this->asHours($this->getTotalBefore()) ?>
+- Danach gebucht (theoretisch): <?php echo $this->asHours($this->getTotal()) ?>
+- Maximal buchbar: <?php echo $this->asHours($this->getMaximum()) ?>
+
+Bitte kontaktieren Sie den Benutzer. Es bestehen folgende Möglichkeiten:
+
+- Der Benutzer hat irrtümlich versucht auf diesen Task zu buchen, die korrekte Buchung ist bereits erfolgt
+- Sie legen einen zusätzlichen Task an, um dem Benutzer das Buchen zu ermöglichen
+
+TDProject
+System Services

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/entity-1.0.0.xsd"
+	name="Project" type="entity">
+    <description>This class represents an object oriented way to manipulate data in the database.</description>
+    <members>
+        <member name="projectId" sqlname="project_id" type="Integer" initial="0"/>
+        <member name="projectIdFk" sqlname="project_id_fk" type="Integer" initial="null"/>
+        <member name="companyIdFk" sqlname="company_id_fk" type="Integer" initial="0"/>
+        <member name="templateIdFk" sqlname="template_id_fk" type="Integer" initial="0"/>
+        <member name="name" sqlname="name" type="String" initial="null"/>
+        <member name="deleted" sqlname="deleted" type="Integer" initial="0"/>
+	</members>
+	<querys>
+		<query>
+			<description><![CDATA[Returns all projects.]]></description>
+			<method name="findAll">
+				<params/>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT project_id FROM project WHERE deleted = 0 ORDER BY name ASC]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the projects with the passed project ID.]]></description>
+			<method name="findAllByProjectIdFk">
+				<params>
+					<param name="projectIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT project_id FROM project WHERE project_id_fk = ? AND deleted = 0 ORDER BY name ASC]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the projects with the passed company ID.]]></description>
+			<method name="findAllByCompanyIdFk">
+				<params>
+					<param name="companyIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT project_id FROM project WHERE company_id_fk = ? AND deleted = 0 ORDER BY name ASC]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the projects with the passed template ID.]]></description>
+			<method name="findAllByTemplateIdFk">
+				<params>
+					<param name="templateIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT project_id FROM project WHERE template_id_fk = ? AND deleted = 0 ORDER BY name ASC]]></sql>
+		</query>
+        <query>
+            <description><![CDATA[Returns the projects for the user with the passed user ID.]]></description>
+            <method name="findAllByUserIdFk">
+                <params>
+                    <param name="userIdFk" type="Integer"/>
+                </params>
+            </method>
+            <result-type>ArrayList</result-type>
+            <sql><![CDATA[SELECT t1.project_id FROM project t1, project_user t2 WHERE t2.user_id_fk = ? AND t1.project_id = t2.project_id_fk AND t1.deleted = 0 ORDER BY t1.name ASC]]></sql>
+        </query>
+	</querys>
+	<references>
+		<reference name="project-has-project">
+			<method-name>Project</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>Project</entity-name>
+			</source>
+			<target>
+				<member-name>projectIdFk</member-name>
+			</target>
+		</reference>
+		<reference name="project-has-template">
+			<method-name>ProjectTemplate</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>Template</entity-name>
+			</source>
+			<target>
+				<member-name>templateIdFk</member-name>
+			</target>
+		</reference>
+		<reference name="project-has-tasks">
+			<method-name>Tasks</method-name>
+			<multiplicity>many</multiplicity>
+			<source>
+				<entity-name>Task</entity-name>
+			</source>
+			<target>
+				<member-name>projectId</member-name>
+			</target>
+		</reference>
+		<reference name="project-has-project-users">
+			<method-name>ProjectUsers</method-name>
+			<multiplicity>many</multiplicity>
+			<source>
+				<entity-name>ProjectUser</entity-name>
+			</source>
+			<target>
+				<member-name>projectId</member-name>
+			</target>
+		</reference>
+        <reference name="project-has-project-cycles">
+            <method-name>ProjectCycles</method-name>
+            <multiplicity>many</multiplicity>
+            <source>
+                <entity-name>ProjectCycle</entity-name>
+            </source>
+            <target>
+                <member-name>projectId</member-name>
+            </target>
+        </reference>
+	</references>
+	<tables>
+		<table type="InnoDB" default-charset="utf8" collate="utf8_unicode_ci" auto-increment="1" name="project">
+			<keys>
+				<pk name="project_pk" field="project_id"/>
+				<index name="project_idx_01" field="project_id_fk"/>
+				<index name="project_idx_02" field="company_id_fk"/>
+				<index name="project_idx_03" field="template_id_fk"/>
+				<fk name="project_fk_01" field="project_id_fk" target-table="project" target-field="project_id" on-delete="null"/>
+				<fk name="project_fk_02" field="company_id_fk" target-table="company" target-field="company_id" on-delete="cascade"/>
+				<fk name="project_fk_03" field="template_id_fk" target-table="template" target-field="template_id" on-delete="cascade"/>
+			</keys>	
+			<fields>
+				<field name="project_id" type="int" length="10" nullable="false" autoincrement="true"/>
+				<field name="project_id_fk" type="int" length="10" nullable="true"/>
+				<field name="company_id_fk" type="int" length="10" nullable="false"/>
+				<field name="template_id_fk" type="int" length="10" nullable="false"/>
+				<field name="name" type="varchar" length="45" nullable="true"/>
+				<field name="deleted" type="tinyint" length="1" nullable="false" default="0"/>
+			</fields>
+		</table>
+	</tables>
+</entity>

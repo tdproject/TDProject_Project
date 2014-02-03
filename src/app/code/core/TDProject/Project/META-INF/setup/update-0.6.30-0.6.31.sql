@@ -1,0 +1,1 @@
+ALTER TABLE `task` ADD `cost_center` INT NOT NULL;

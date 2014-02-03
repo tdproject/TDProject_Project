@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+
+?>
+<h3>Gesamt (incl. Sub-Tasks): <?php echo $this->asHours($this->getAverage()) ?> h</h3>
+<h4>Gesamt (dieser Task): <?php echo $this->asHours($this->getSubtotalAverage()) ?> h</h4>
+<table width="100%">
+	<thead>
+		<tr align="left">
+			<th>Beschreibung</th>
+			<th>Benutzer</th>
+			<th>d<sub>min</sub></th>
+			<th>d<sub>norm</sub></th>
+			<th>d<sub>max</sub></th>
+			<th>d<sub>avg</sub></th>
+		</tr>
+	</thead>
+	<tbody><?php if ($this->getEstimations()->size() > 0 ) { ?>
+		<?php foreach ($this->getEstimations() as $estimation) { ?><tr align="left">
+	    	<td><?php echo $estimation->getDescription() ?></td>
+	    	<td><?php echo $estimation->getUsername() ?></td>
+	    	<td><?php echo $this->asHours($estimation->getMinimum()) ?></td>
+	    	<td><?php echo $this->asHours($estimation->getNormal()) ?></td>
+	    	<td><?php echo $this->asHours($estimation->getMaximum()) ?></td>
+	    	<td><?php echo $this->asHours($estimation->getAverage()) ?></td>
+	    </tr><?php } ?>
+	    <?php } else { ?><tr>
+	    	<td colspan="6">Für diesen Task sind bisher keine Schätzungen vorhanden!</td>
+	    </tr><?php } ?>
+    </tbody>
+    <tfoot>
+    	<tr align="left">
+    		<th></th>
+    		<th></th>
+    		<th></th>
+    		<th></th>
+    		<th></th>
+    		<th></th>
+    	</tr>
+    </tfoot>
+</table>

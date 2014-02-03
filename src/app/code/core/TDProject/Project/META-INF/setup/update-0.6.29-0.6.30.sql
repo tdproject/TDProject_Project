@@ -1,0 +1,2 @@
+UPDATE `report_field_class` SET `class_converter` = 'TDProject_Project_Model_Widget_Converter_Task' WHERE `report_field_class`.`report_field_class_id` = 7;
+UPDATE `report_field` SET `parameter_name` = 'TASK_ID,PROJECT_ID' WHERE `report_field`.`report_field_id` = 21;

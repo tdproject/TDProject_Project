@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+
+?>
+<script type="text/javascript">
+<!--
+
+$(function() {
+
+	// initialize the select field with the available tasks
+	loadTasks($('#projectIdFk :selected').val(), <?php echo $this->getTaskIdFk(); ?>);
+
+	// listener when the selectd project changes
+	$('#projectIdFk').change(function() {
+		loadTasks($('#projectIdFk :selected').val(), 0);
+	});
+
+	return false;
+});
+
+/**
+ * Loads the task for the passed project ID and
+ * marks the one with the passed task ID selected.
+ *
+ * @param projectId The ID of the project to load the tasks for
+ * @param taskId The ID of the selected task
+ * @return void
+ */
+function loadTasks(projectId, taskId) {
+
+	// check if a project ID has been applied
+	if (projectId == 0) {
+		return false;
+	}
+
+	$.ajax({
+	    type: "GET",
+	    url: "?namespace=TDProject&module=Project&path=/logging/task",
+	    data: "projectId=" + projectId + "&taskId=" + taskId,
+	    success: function(data) {
+	        $('#task').html(data);
+    	}
+	});
+
+	return false;
+}
+
+//-->
+</script>
+<!-- Tasks loaded by a AJAX call depending on the selected project -->
+<div class="type-text" id="task"></div>

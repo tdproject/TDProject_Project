@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/entity-1.0.0.xsd"
+	name="TemplateTask" type="entity">
+    <description>This class represents an object oriented way to manipulate data in the database.</description>
+    <members>
+        <member name="templateTaskId" sqlname="template_task_id" type="Integer" initial="0"/>
+        <member name="templateIdFk" sqlname="template_id_fk" type="Integer" initial="0"/>
+        <member name="taskIdFk" sqlname="task_id_fk" type="Integer" initial="0"/>
+	</members>
+	<querys>
+		<query>
+			<description><![CDATA[Returns all template-task relations.]]></description>
+			<method name="findAll">
+				<params/>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT template_task_id FROM template_task]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the template-task relations with the passed template ID.]]></description>
+			<method name="findAllByTemplateIdFk">
+				<params>
+					<param name="templateIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT template_task_id FROM template_task WHERE template_id_fk = ?]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the template-task relations with the passed task ID.]]></description>
+			<method name="findAllByTaskIdFk">
+				<params>
+					<param name="taskIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT template_task_id FROM template_task WHERE task_id_fk = ?]]></sql>
+		</query>
+	</querys>
+	<references>
+		<reference name="template-task-has-project">
+			<method-name>Template</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>Template</entity-name>
+			</source>
+			<target>
+				<member-name>templateIdFk</member-name>
+			</target>
+		</reference>
+		<reference name="template-task-has-task">
+			<method-name>Task</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>Task</entity-name>
+			</source>
+			<target>
+				<member-name>taskIdFk</member-name>
+			</target>
+		</reference>
+	</references>
+	<tables>
+		<table type="InnoDB" default-charset="utf8" collate="utf8_unicode_ci" auto-increment="1" name="template_task">
+			<keys>
+				<pk name="template_task_pk" field="template_task_id"/>
+				<index name="template_task_idx_01" field="template_id_fk"/>
+				<index name="template_task_idx_02" field="task_id_fk"/>
+				<fk name="template_task_fk_01" field="template_id_fk" target-table="template" target-field="template_id" on-delete="cascade"/>
+				<fk name="template_task_fk_02" field="task_id_fk" target-table="task" target-field="task_id" on-delete="cascade"/>
+			</keys>	
+			<fields>
+				<field name="template_task_id" type="int" length="10" nullable="false" autoincrement="true"/>
+				<field name="template_id_fk" type="int" length="10" nullable="false"/>
+				<field name="task_id_fk" type="int" length="10" nullable="false"/>
+			</fields>
+		</table>
+	</tables>
+</entity>

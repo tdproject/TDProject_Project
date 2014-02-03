@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title><?php echo $this->getSubject() ?></title>
+	</head>
+	<body>
+		<p>
+			Ein Task wurde über den durchschnittlichen Schätzwert hinaus überbucht!
+		</p>
+		<p>
+			Folgend Detaildaten liegen vor:
+			<ul>
+				<li>Benutzer: <a href="mailto:<?php echo $this->getUser()->getEmail() ?>"><?php echo $this->getUser()->getUsername() ?></a></li>
+				<li>Projekt: <?php echo $this->getProject()->getName() ?></li>
+				<li>Task: <?php echo $this->getTask()->getName() ?></li>
+				<li>Tätigkeitsbeschreibung: <?php echo $this->getTaskUser()->getDescription() ?></li>
+				<li>Von: <?php echo $this->getTaskUserFrom() ?> - <?php echo $this->getTaskUserUntil() ?></li>
+				<li>Aktuell gebucht: <?php echo $this->asHours($this->getTotalBefore()) ?></li>
+				<li>Danach gebucht (theoretisch): <?php echo $this->asHours($this->getTotal()) ?></li>
+				<li>Durchschnittlich buchbar: <?php echo $this->asHours($this->getAverage()) ?></li>
+			</ul>
+		</p>
+		<p>
+			Derzeit besteht zwar kein Handlungsbedarf, es ist jedoch angebracht, den Task
+			weiterhin zu beobachten, um eine Überbuchung, wenn möglich, zu vermeiden!
+		</p>
+		<p>
+			TDProject<br/>
+			System Services
+		</p>
+	</body>
+</html>

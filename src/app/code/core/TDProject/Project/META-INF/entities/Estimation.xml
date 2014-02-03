@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+-->
+<entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.techdivision.com/schema/entity-1.0.0.xsd"
+	name="Estimation" type="entity">
+    <description>This class represents an object oriented way to manipulate data in the database.</description>
+    <members>
+        <member name="estimationId" sqlname="estimation_id" type="Integer" initial="0"/>
+        <member name="userIdFk" sqlname="user_id_fk" type="Integer" initial="0"/>
+        <member name="taskIdFk" sqlname="task_id_fk" type="Integer" initial="0"/>
+    	<member name="description" sqlname="description" type="String" initial="null"/>
+        <member name="unit" sqlname="unit" type="String" initial="null"/>
+        <member name="complexity" sqlname="complexity" type="String" initial="null"/>
+        <member name="quantity" sqlname="quantity" type="Integer" initial="0"/>
+        <member name="minimum" sqlname="minimum" type="Integer" initial="0"/>
+        <member name="normal" sqlname="normal" type="Integer" initial="0"/>
+        <member name="maximum" sqlname="maximum" type="Integer" initial="0"/>
+        <member name="average" sqlname="average" type="Integer" initial="0"/>
+	</members>
+	<querys>
+		<query>
+			<description><![CDATA[Returns all estimations.]]></description>
+			<method name="findAll">
+				<params/>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT estimation_id FROM estimation]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the estimations with the passed task ID.]]></description>
+			<method name="findAllByTaskIdFk">
+				<params>
+					<param name="taskIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT estimation_id FROM estimation WHERE task_id_fk = ?]]></sql>
+		</query>
+		<query>
+			<description><![CDATA[Returns the estimations with the passed task and user ID.]]></description>
+			<method name="findAllByTaskIdFkAndUserIdFk">
+				<params>
+					<param name="taskIdFk" type="Integer"/>
+					<param name="userIdFk" type="Integer"/>
+				</params>
+			</method>
+			<result-type>ArrayList</result-type>
+			<sql><![CDATA[SELECT estimation_id FROM estimation WHERE task_id_fk = ? AND user_id_fk = ?]]></sql>
+		</query>
+	</querys>
+	<references>
+		<reference name="estimation-has-task">
+			<method-name>Task</method-name>
+			<multiplicity>one</multiplicity>
+			<source>
+				<entity-name>Task</entity-name>
+			</source>
+			<target>
+				<member-name>taskIdFk</member-name>
+			</target>
+		</reference>
+	</references>
+	<tables>
+		<table type="InnoDB" default-charset="utf8" collate="utf8_unicode_ci" auto-increment="1" name="estimation">
+			<keys>
+				<pk name="estimation_pk" field="estimation_id"/>
+				<unique-multi name="estimation_uidx_01">
+					<columns>
+						<column>user_id_fk</column>
+						<column>task_id_fk</column>
+					</columns>
+				</unique-multi>
+			</keys>	
+			<fields>
+				<field name="estimation_id" type="int" length="10" nullable="false" autoincrement="true"/>
+				<field name="user_id_fk" type="int" length="10" nullable="false"/>
+				<field name="task_id_fk" type="int" length="10" nullable="false"/>
+				<field name="description" type="varchar" length="255" nullable="false"/>
+				<field name="unit" type="varchar" length="25" nullable="false"/>
+				<field name="complexity" type="varchar" length="25" nullable="false"/>
+				<field name="quantity" type="int" length="10" nullable="false"/>
+				<field name="minimum" type="int" length="10" nullable="false"/>
+				<field name="normal" type="int" length="10" nullable="false"/>
+				<field name="maximum" type="int" length="10" nullable="false"/>
+				<field name="average" type="int" length="10" nullable="false"/>
+			</fields>
+		</table>
+	</tables>
+</entity>

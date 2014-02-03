@@ -1,0 +1,128 @@
+<?php
+
+/**
+ * TDProject_Project
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+
+$request = $this->getRequest();
+// load the system user
+$systemUser = $this->getSystemUser();
+
+// load the ActionForm
+$actionForm = $this->getActionForm();
+$taskTypes = $actionForm->getTaskTypes();
+
+// load the errors
+if(($errors = $request->getAttribute(TechDivision_Controller_Action_Errors::ACTION_ERRORS)) != null) {
+    $foundErrors = $errors->size();
+} else {
+    $foundErrors = 0;
+}
+
+// load the messages
+if(($messages = $request->getAttribute(TechDivision_Controller_Action_Messages::ACTION_MESSAGES)) != null) {
+    $foundMessages = $messages->size();
+} else {
+    $foundMessages = 0;
+}
+
+?>
+
+<script type="text/javascript" src="www/design/core/templates/global/js/loader.js"></script>
+<script type="text/javascript">
+<!--
+
+$(function() {
+	// check if the save task button was already added
+	if ($("#saveTask").length == 0) {
+		// if not, add it
+		$("#toolbar")
+			.prepend('<button id="saveTask"><?php echo $this->translate('button.template.task.save'); ?></button>')
+		$("#saveTask")
+			.button({ icons : { primary: "ui-icon-minusplusthick" } })
+			.click(function() { 
+				return saveTask($('#taskForm')); 
+			});
+	}
+});
+
+/**
+ * This method saves the task data of the form
+ * by an AJAX request.
+ *
+ * @return boolean The method returns always FALSE
+ */
+function saveTask(form) {
+	// load the form data
+	var taskId = $("input[name='taskId'][type='hidden']", form).val();
+	var taskIdFk = $("input[name='taskIdFk'][type='hidden']", form).val();
+	var name = $("input[name='name'][type='hidden']", form).val();
+	var description = $("#description", form).val();
+	var taskTypeIdFk = $('#taskTypeIdFk', form).val();
+	var billable = 0;
+	// check if the billable flag was checked
+	if ($("#billable", form).is(":checked")) {
+		var billable = $("#billable", form).val();
+	}
+  	// concatenate the form data
+	var dataString = 'taskId=' + taskId 
+		+ '&taskIdFk=' + taskIdFk 
+		+ '&name=' + name 
+		+ '&description=' + description 
+		+ '&billable=' + billable 
+		+ '&taskTypeIdFk=' +  taskTypeIdFk;
+	// send the form data by an AJAX request
+	$.ajax({
+    	type: "POST",
+    	url: "?path=/task&method=save",
+    	data: dataString,
+    	success: function(response) {
+    		form.html(response);
+    	}
+	});
+	// return FALSE
+	return false;
+}
+
+//-->
+</script>
+<form id="taskForm" name="taskForm" action="">
+	<input type="hidden" name="path" value="/task" />
+	<input type="hidden" name="method" value="save" /> 
+	<input type="hidden" name="taskId" value="<?php echo $actionForm->getTaskId() ?>" />
+	<input type="hidden" name="taskIdFk" value="<?php echo $actionForm->getTaskIdFk() ?>" />
+	<input type="hidden" name="name" value="<?php echo $actionForm->getName() ?>" />
+    <fieldset class="ui-widget ui-widget-content ui-corner-all">
+    	<legend>Taskdaten</legend><?php if($foundErrors > 0) { ?>
+    	<div>
+    		<ul><?php foreach($errors as $error) { ?>
+    			<li><?php echo $error->getMessage(); ?></li><?php } ?>
+    		</ul>
+    	</div><?php } ?> <?php if($foundMessages > 0) { ?>
+    	<div>
+			<ul><?php foreach($messages as $message) { ?>
+    			<li><?php echo $message->getMessage(); ?></li><?php } ?>
+    		</ul>
+    	</div><?php } ?>
+        <div class="type-text">
+        	<label for="description">Beschreibung: *</label> 
+        	<textarea name="description" id="description"><?php echo $actionForm->getDescription() ?></textarea>
+        </div>
+        <div class="type-check">
+        	<label for="billable">Abrechenbar: *</label>
+        	<input type="checkbox" name="billable" id="billable" <?php if ($actionForm->getBillable()->booleanValue()) { ?>checked="checked" <?php } ?> value="1" />
+        </div>
+        <div class="type-text">
+        	<label for="taskTypeIdFk">Typ: *</label>
+        	<select name="taskTypeIdFk" id="taskTypeIdFk"><?php for ($i = 0; $i < $taskTypes->size(); $i++) { ?>
+        		<option value="<?php echo $taskTypes->get($i)->getTaskTypeId(); ?>" <?php if($actionForm->getTaskTypeIdFk()->equals($taskTypes->get($i)->getTaskTypeId())) { ?>selected="selected" <?php } ?>><?php echo $taskTypes->get($i)->getName() ?></option>
+        	<?php } ?></select>
+        </div>
+    </fieldset>
+</form>
