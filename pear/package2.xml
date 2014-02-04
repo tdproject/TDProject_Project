@@ -33,12 +33,12 @@
             </pearinstaller>
 			<package>
 				<name>TDProject_ERP</name>
-				<channel>project.tdintern.de/tdproject</channel>
+				<channel>pear.appserver.io/tdproject</channel>
 				<min>0.5.2</min>
 			</package>
 			<package>
 				<name>PHPExcel</name>
-				<channel>project.tdintern.de/tdproject</channel>
+				<channel>pear.appserver.io/tdproject</channel>
 				<min>1.7.9</min>
 			</package>
         </required>
